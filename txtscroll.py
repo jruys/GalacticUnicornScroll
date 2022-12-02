@@ -48,6 +48,8 @@ Text='Far out in the uncharted backwaters of the unfashionable end of the wester
 print("Text to render: "+Text)
 Width=graphics.measure_text(Text,1,1)
 print("Text width in pixels: "+str(Width))
+Shadow=False # Set to True if you want a 1 pixel black border around the font, this slows down rendering
+print("Shadow mode: "+str(Shadow))
 
 pf=[[255,0,0],[0,255,0],[0,0,255],[255,255,0],[255,0,255],[0,255,255],[255,255,255]] # palette foreground
 cf=0 # color index initial foreground
@@ -67,8 +69,8 @@ print("Initial scroll speed: "+str(ScrollSet))
 
 BrightSet=0.6
 BrightStep=0.1
-BrightMax=1
-BrightMin=0
+BrightMax=1.0
+BrightMin=0.1
 print("Initial brightness: "+str(BrightSet))
 galactic.set_brightness(BrightSet)
 
@@ -79,6 +81,12 @@ while True:
   for Pos in range(53,-1*Width,-1):
     graphics.set_pen(graphics.create_pen(br, bg, bb))
     graphics.clear()
+    if Shadow==True:
+      graphics.set_pen(graphics.create_pen(0, 0, 0))
+      graphics.text(Text, Pos-1, 2, -1, 1)
+      graphics.text(Text, Pos+1, 2, -1, 1)
+      graphics.text(Text, Pos, 1, -1, 1)
+      graphics.text(Text, Pos, 3, -1, 1)
     graphics.set_pen(graphics.create_pen(fr, fg, fb))
     graphics.text(Text, Pos, 2, -1, 1)
     galactic.update(graphics)
